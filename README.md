@@ -32,6 +32,7 @@ An intelligent portfolio website built with React and FastAPI, featuring an AI-p
 ### Prerequisites
 - Node.js 16+ 
 - Python 3.9+
+- uv package manager ([install here](https://docs.astral.sh/uv/getting-started/installation/))
 - OpenAI API key (optional, fallback responses available)
 
 ### Frontend Setup
@@ -44,19 +45,23 @@ npm start
 ### Backend Setup
 ```bash
 cd backend
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\\Scripts\\activate
-pip install -r requirements.txt
+
+# Install uv if you haven't already
+# curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# Install dependencies using uv
+uv sync
 
 # Optional: Add your OpenAI API key to .env file
 # OPENAI_API_KEY=your_key_here
 
-python run.py
+# Run the server
+uv run run.py
 ```
 
 ## 🎯 Usage
 
-1. **Start the backend server**: `cd backend && python run.py`
+1. **Start the backend server**: `cd backend && uv run run.py`
 2. **Start the frontend**: `cd frontend && npm start`
 3. **Open your browser** to `http://localhost:3000`
 4. **Chat with the AI assistant** using the chat bubble in the bottom right

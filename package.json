@@ -4,12 +4,16 @@
   "description": "AI-powered portfolio website with RAG chatbot",
   "scripts": {
     "dev:frontend": "cd frontend && npm start",
-    "dev:backend": "cd backend && source venv/bin/activate && python run.py",
+    "dev:backend": "cd backend && uv run run.py",
     "build:frontend": "cd frontend && npm run build",
     "install:frontend": "cd frontend && npm install",
-    "install:backend": "cd backend && pip install -r requirements.txt",
+    "install:backend": "cd backend && uv sync",
     "setup": "npm run install:frontend && npm run install:backend",
-    "start": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\""
+    "start": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "backend:shell": "cd backend && uv run python",
+    "backend:sync": "cd backend && uv sync",
+    "backend:add": "cd backend && uv add",
+    "backend:remove": "cd backend && uv remove"
   },
   "keywords": ["portfolio", "ai", "chatbot", "react", "fastapi", "rag"],
   "author": "Manas Sanjay Pakalapati",

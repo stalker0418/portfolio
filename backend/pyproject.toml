@@ -1,0 +1,85 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "manas-portfolio-backend"
+version = "1.0.0"
+description = "AI-powered portfolio backend with RAG chatbot"
+authors = [
+    {name = "Manas Sanjay Pakalapati", email = "pakalapati.sanjay@gmail.com"},
+]
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.9"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+
+dependencies = [
+    "fastapi>=0.116.2",
+    "uvicorn[standard]>=0.35.0",
+    "python-multipart>=0.0.20",
+    "langchain>=0.3.27",
+    "langchain-community>=0.3.27",
+    "langchain-openai>=0.2.10",
+    "openai>=1.107.3",
+    "chromadb>=1.0.21",
+    "python-dotenv>=1.1.1",
+    "pydantic>=2.11.9",
+    "requests>=2.32.5",
+    "numpy>=2.0.2",
+    "tiktoken>=0.8.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-asyncio>=0.21.0",
+    "httpx>=0.25.0",
+    "black>=23.0.0",
+    "flake8>=6.0.0",
+    "mypy>=1.5.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/yourusername/manas-portfolio"
+Repository = "https://github.com/yourusername/manas-portfolio.git"
+Issues = "https://github.com/yourusername/manas-portfolio/issues"
+
+[project.scripts]
+portfolio-server = "run:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["chatbot"]
+
+[tool.black]
+line-length = 88
+target-version = ['py39']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+)/
+'''
+
+[tool.mypy]
+python_version = "3.9"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
