@@ -1,8 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { ChevronDown, Github, Linkedin, Mail, Download } from 'lucide-react';
+import { ChevronDown, Github, Linkedin, Mail, Download, MessageSquare, Send } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const Hero: React.FC = () => {
+  const navigate = useNavigate();
+  const [chatMessage, setChatMessage] = useState('');
+
+  const handleChatSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (chatMessage.trim()) {
+      navigate('/chat', { state: { initialMessage: chatMessage } });
+    }
+  };
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -74,6 +85,67 @@ const Hero: React.FC = () => {
           >
             Get In Touch
           </motion.a>
+        </motion.div>
+
+        {/* Chat Input Box */}
+        <motion.div
+          variants={itemVariants}
+          className="mb-12"
+        >
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.2 }}
+            className="max-w-2xl mx-auto"
+          >
+            <div className="mb-4 text-center">
+              <div className="flex items-center justify-center gap-2 mb-2">
+                <MessageSquare className="text-primary-500" size={20} />
+                <h3 className="text-lg font-semibold text-white">Ask My AI Assistant</h3>
+              </div>
+              <p className="text-sm text-gray-400">
+                Get instant answers about my experience, projects, and skills
+              </p>
+            </div>
+            
+            <form onSubmit={handleChatSubmit} className="relative">
+              <div className="relative glass rounded-2xl p-1 border border-primary-500/20">
+                <input
+                  type="text"
+                  value={chatMessage}
+                  onChange={(e) => setChatMessage(e.target.value)}
+                  placeholder="Ask me about my projects, skills, or experience..."
+                  className="w-full px-6 py-4 bg-transparent text-white placeholder-gray-400 focus:outline-none rounded-xl"
+                />
+                <motion.button
+                  type="submit"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  disabled={!chatMessage.trim()}
+                  className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-primary-500 hover:bg-primary-600 disabled:bg-gray-600 disabled:cursor-not-allowed text-white p-3 rounded-xl transition-all duration-200"
+                >
+                  <Send size={18} />
+                </motion.button>
+              </div>
+              <div className="flex items-center justify-center gap-4 mt-3">
+                <span className="text-xs text-gray-500">Try asking:</span>
+                <button
+                  type="button"
+                  onClick={() => setChatMessage("What are your main skills?")}
+                  className="text-xs text-primary-400 hover:text-primary-300 transition-colors"
+                >
+                  "What are your main skills?"
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setChatMessage("Tell me about your projects")}
+                  className="text-xs text-primary-400 hover:text-primary-300 transition-colors"
+                >
+                  "Tell me about your projects"
+                </button>
+              </div>
+            </form>
+          </motion.div>
         </motion.div>
 
         <motion.div
