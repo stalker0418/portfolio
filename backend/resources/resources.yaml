@@ -1,0 +1,48 @@
+# Portfolio Resources Configuration
+# This file contains all external resources and links for the portfolio
+
+resources:
+  # Personal Documents
+  resume:
+    type: "pdf"
+    path: "Manas_Sanjay_Pakalapati_Resume.pdf"
+    description: "Professional resume and CV"
+  
+  # Online Profiles
+  profiles:
+    linkedin:
+      url: "https://linkedin.com/in/manas-sanjay-pakalapati"
+      description: "LinkedIn professional profile"
+      type: "social"
+    
+    github:
+      url: "https://github.com/manassanjay"
+      description: "GitHub profile with repositories"
+      type: "social"
+    
+    medium:
+      url: "https://medium.com/@manassanjay"
+      description: "Medium articles and blog posts"
+      type: "content"
+  
+  # Project Links
+  projects:
+    portfolio_website:
+      url: "https://manas-sanjay-pakalapati-portfolio.vercel.app"
+      description: "Personal portfolio website"
+      type: "project"
+    
+    github_repos:
+      - url: "https://github.com/manassanjay/portfolio"
+        description: "Portfolio source code"
+        type: "project"
+      # Add more repositories as needed
+  
+  # Additional Resources
+  additional:
+    # Add any other relevant links, documents, or resources
+    # Example:
+    # certifications:
+    #   - name: "AWS Certified Developer"
+    #     url: "https://aws.amazon.com/certification/"
+    #     type: "certification"
