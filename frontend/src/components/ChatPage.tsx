@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Send, Bot, User, ArrowLeft, Sparkles } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
+import { API_ENDPOINTS, axiosConfig } from '../config/api';
 
 interface Message {
   id: number;
@@ -65,9 +66,9 @@ const ChatPage: React.FC = () => {
 
     try {
       // Call the backend API
-      const response = await axios.post('http://localhost:8000/api/chat', {
+      const response = await axios.post(API_ENDPOINTS.CHAT, {
         message: inputMessage
-      });
+      }, axiosConfig);
 
       const botMessage: Message = {
         id: messages.length + 2,
