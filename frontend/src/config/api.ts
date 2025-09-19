@@ -20,7 +20,7 @@ export const API_BASE_URL = (() => {
 
 // API endpoints
 export const API_ENDPOINTS = {
-  CHAT: `${API_BASE_URL}/api/chat`,
+  CHAT: `${API_BASE_URL}/chat`,
   HEALTH: `${API_BASE_URL}/health`,
   PORTFOLIO_SUMMARY: `${API_BASE_URL}/api/portfolio/summary`,
 } as const;
