@@ -30,3 +30,15 @@ async def health_check():
         version="1.0.0",
         uptime=time.time() - startup_time
     )
+
+
+@router.get("/debug")
+async def debug_info():
+    """Debug endpoint to check configuration."""
+    from config.simple_settings import settings
+    return {
+        "together_api_key_set": bool(settings.together_api_key),
+        "together_api_key_length": len(settings.together_api_key) if settings.together_api_key else 0,
+        "default_model": settings.default_model,
+        "debug_mode": settings.debug
+    }

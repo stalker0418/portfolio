@@ -1,8 +1,9 @@
 """Application configuration settings."""
 
 import os
-from typing import Optional
-from pydantic import BaseSettings, Field
+from typing import Optional, List
+from pydantic import Field, field_validator
+from pydantic_settings import BaseSettings
 from pathlib import Path
 
 
@@ -20,15 +21,21 @@ class Settings(BaseSettings):
     debug: bool = Field(default=False, env="DEBUG")
     
     # CORS Configuration
-    cors_origins: list[str] = Field(
+    cors_origins: List[str] = Field(
         default=[
             "http://localhost:3000",
             "http://127.0.0.1:3000",
             "https://manas-sanjay-pakalapati-portfolio.vercel.app",
             "https://*.vercel.app"
-        ],
-        env="CORS_ORIGINS"
+        ]
     )
+    
+    @field_validator('cors_origins', mode='before')
+    @classmethod
+    def parse_cors_origins(cls, v):
+        if isinstance(v, str):
+            return [origin.strip() for origin in v.split(',')]
+        return v
     
     # AI Model Configuration
     default_model: str = Field(default="together", env="DEFAULT_MODEL")
@@ -53,6 +60,7 @@ class Settings(BaseSettings):
         env_file = ".env"
         env_file_encoding = "utf-8"
         case_sensitive = False
+        env_ignore_empty = True
 
 
 # Global settings instance

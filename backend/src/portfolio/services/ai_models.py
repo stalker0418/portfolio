@@ -4,7 +4,7 @@ import asyncio
 from abc import ABC, abstractmethod
 from typing import Dict, Any, Optional, List
 import httpx
-from config.settings import settings
+from config.simple_settings import settings
 
 
 class AIModelProvider(ABC):
@@ -54,13 +54,15 @@ class TogetherAIProvider(AIModelProvider):
         if not self.client:
             await self.initialize()
         
+        # TogetherAI uses the same format as OpenAI for chat completions
         payload = {
             "model": self.model_name,
-            "prompt": prompt,
+            "messages": [
+                {"role": "user", "content": prompt}
+            ],
             "max_tokens": kwargs.get("max_tokens", settings.model_max_tokens),
             "temperature": kwargs.get("temperature", settings.model_temperature),
             "top_p": kwargs.get("top_p", 0.9),
-            "repetition_penalty": kwargs.get("repetition_penalty", 1.0),
             "stop": kwargs.get("stop", ["</s>", "Human:", "Assistant:"])
         }
         
@@ -70,7 +72,7 @@ class TogetherAIProvider(AIModelProvider):
             data = response.json()
             
             return {
-                "answer": data["choices"][0]["text"].strip(),
+                "answer": data["choices"][0]["message"]["content"].strip(),
                 "confidence": 0.8,  # TogetherAI doesn't provide confidence scores
                 "model_used": self.model_name,
                 "provider": "together"

@@ -4,7 +4,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from src.portfolio.api import chat, health
 from src.portfolio.services.chatbot_service import ChatbotService
-from config.settings import settings
+from config.simple_settings import settings
 
 # Initialize FastAPI app
 app = FastAPI(

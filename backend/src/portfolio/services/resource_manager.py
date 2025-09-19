@@ -4,7 +4,7 @@ import yaml
 from pathlib import Path
 from typing import Dict, List, Optional, Any
 from src.portfolio.models.resources import ResourcesConfig, Resource, ResourceType
-from config.settings import settings
+from config.simple_settings import settings
 
 
 class ResourceManager:
