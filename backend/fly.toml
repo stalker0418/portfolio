@@ -1,0 +1,49 @@
+# fly.toml - Fly.io app configuration file
+
+# App name (will be your URL: https://manas-portfolio-backend.fly.dev)
+app = "manas-portfolio-backend"
+
+# Primary region - choose closest to your users
+# ord = Chicago, lax = Los Angeles, lhr = London, fra = Frankfurt
+primary_region = "ord"
+
+# Build section - tells Fly.io to use Docker
+[build]
+
+# HTTP service configuration
+[http_service]
+  internal_port = 8000                    # Port your app runs on inside container
+  force_https = true                      # Always redirect HTTP to HTTPS
+  auto_stop_machines = true               # FREE TIER: Stop when no traffic
+  auto_start_machines = true              # FREE TIER: Start when traffic comes
+  min_machines_running = 0                # FREE TIER: Allow scaling to zero
+
+# Health check configuration - uses your /health endpoint
+[[http_service.checks]]
+  grace_period = "10s"                    # Wait 10s after startup before checking
+  interval = "30s"                        # Check every 30 seconds
+  method = "GET"                          # HTTP GET request
+  timeout = "5s"                          # Timeout after 5 seconds
+  path = "/health"                        # Your health endpoint
+
+# Environment variables (non-secret)
+[env]
+  HOST = "0.0.0.0"
+  PORT = "8000"
+  PYTHONPATH = "/app"
+
+# VM configuration - FREE TIER SETTINGS
+[[vm]]
+  cpu_kind = "shared"                     # FREE TIER: Shared CPU
+  cpus = 1                                # FREE TIER: 1 CPU
+  memory_mb = 256                         # FREE TIER: 256MB RAM (minimum)
+
+# Concurrency settings for performance
+[http_service.concurrency]
+  type = "requests"
+  hard_limit = 25                         # Max 25 concurrent requests
+  soft_limit = 20                         # Start warning at 20
+
+# Restart policy
+[[restart]]
+  policy = "on-failure"                   # Only restart if app crashes

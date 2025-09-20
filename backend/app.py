@@ -32,7 +32,9 @@ app.add_middleware(
         "http://localhost:3000",  # Create React App default
         "http://localhost:5173",  # Vite default
         "http://127.0.0.1:3000",  # Alternative localhost
-        "http://127.0.0.1:5173"   # Alternative localhost
+        "http://127.0.0.1:5173",  # Alternative localhost
+        "https://*.vercel.app",   # All Vercel deployment domains
+        "https://manas-portfolio-backend.fly.dev",  # Your Fly.io backend (for health checks)
     ],
     allow_credentials=True,
     allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
