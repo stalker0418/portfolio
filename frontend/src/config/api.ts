@@ -9,13 +9,13 @@ export const API_BASE_URL = (() => {
     return 'http://localhost:8000';
   }
   
-  // If deployed on Vercel, use environment variable or default
+  // If deployed on Vercel, use environment variable or default to Fly.io
   if (isVercelDeployment) {
-    return process.env.REACT_APP_API_URL || 'https://your-backend-url.com';
+    return process.env.REACT_APP_API_URL || 'https://manas-portfolio-backend.fly.dev';
   }
   
   // Fallback for other production environments
-  return process.env.REACT_APP_API_URL || 'https://your-backend-url.com';
+  return process.env.REACT_APP_API_URL || 'https://manas-portfolio-backend.fly.dev';
 })();
 
 // API endpoints
