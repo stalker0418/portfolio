@@ -91,8 +91,8 @@ const ChatBot: React.FC = () => {
         animate={{ scale: 1 }}
         transition={{ delay: 1 }}
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-6 right-6 z-50 w-16 h-16 bg-primary-500 hover:bg-primary-600 text-white rounded-full shadow-lg flex items-center justify-center transition-colors duration-200"
-        whileHover={{ scale: 1.1 }}
+        className="fixed bottom-6 right-6 z-50 w-16 h-16 glass-elevated bg-gradient-primary text-white rounded-full flex items-center justify-center transition-all duration-200"
+        whileHover={{ scale: 1.1, y: -2 }}
         whileTap={{ scale: 0.9 }}
       >
         {isOpen ? <X size={24} /> : <MessageCircle size={24} />}
@@ -106,17 +106,17 @@ const ChatBot: React.FC = () => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 100, scale: 0.8 }}
             transition={{ duration: 0.3 }}
-            className="fixed bottom-24 right-6 z-40 w-96 h-[500px] glass rounded-xl shadow-2xl flex flex-col overflow-hidden"
+            className="fixed bottom-24 right-6 z-40 w-96 h-[500px] glass-elevated flex flex-col overflow-hidden"
           >
             {/* Chat Header */}
-            <div className="bg-primary-500/20 p-4 border-b border-primary-500/20">
+            <div className="glass-gradient p-4 border-b border-white/20">
               <div className="flex items-center gap-3">
-                <div className="w-8 h-8 bg-primary-500 rounded-full flex items-center justify-center">
+                <div className="w-8 h-8 bg-gradient-primary rounded-full flex items-center justify-center shadow-lg">
                   <Bot size={18} />
                 </div>
                 <div>
-                  <h3 className="font-semibold">AI Assistant</h3>
-                  <p className="text-xs text-gray-400">Ask me about Manas</p>
+                  <h3 className="font-semibold text-gray-800">AI Assistant</h3>
+                  <p className="text-xs text-gray-600">Ask me about Manas</p>
                 </div>
               </div>
             </div>
@@ -135,21 +135,21 @@ const ChatBot: React.FC = () => {
                   }`}>
                     <div className={`w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 ${
                       message.sender === 'user' 
-                        ? 'bg-primary-500' 
-                        : 'bg-gray-600'
+                        ? 'bg-gradient-primary' 
+                        : 'bg-gradient-secondary'
                     }`}>
                       {message.sender === 'user' ? <User size={14} /> : <Bot size={14} />}
                     </div>
                     <div className={`rounded-lg p-3 ${
                       message.sender === 'user'
-                        ? 'bg-primary-500 text-white'
-                        : 'bg-gray-700 text-gray-100'
+                        ? 'bg-gradient-primary text-white'
+                        : 'bg-gradient-to-br from-primary-50 to-primary-100 border border-primary-200 text-gray-800'
                     }`}>
                       <p className="text-sm">{message.text}</p>
                       <p className={`text-xs mt-1 ${
                         message.sender === 'user' 
-                          ? 'text-primary-100' 
-                          : 'text-gray-400'
+                          ? 'text-white/70' 
+                          : 'text-gray-600'
                       }`}>
                         {formatTime(message.timestamp)}
                       </p>
@@ -166,14 +166,14 @@ const ChatBot: React.FC = () => {
                   className="flex justify-start"
                 >
                   <div className="flex items-start gap-2">
-                    <div className="w-6 h-6 bg-gray-600 rounded-full flex items-center justify-center">
+                    <div className="w-6 h-6 bg-gradient-secondary rounded-full flex items-center justify-center">
                       <Bot size={14} />
                     </div>
-                    <div className="bg-gray-700 rounded-lg p-3">
+                    <div className="bg-gradient-to-br from-primary-50 to-primary-100 border border-primary-200 rounded-lg p-3">
                       <div className="flex space-x-1">
-                        <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                        <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce delay-100"></div>
-                        <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce delay-200"></div>
+                        <div className="w-2 h-2 bg-primary-500 rounded-full animate-bounce"></div>
+                        <div className="w-2 h-2 bg-secondary-500 rounded-full animate-bounce delay-100"></div>
+                        <div className="w-2 h-2 bg-accent-500 rounded-full animate-bounce delay-200"></div>
                       </div>
                     </div>
                   </div>
@@ -183,21 +183,21 @@ const ChatBot: React.FC = () => {
             </div>
 
             {/* Message Input */}
-            <form onSubmit={sendMessage} className="p-4 border-t border-primary-500/20">
+            <form onSubmit={sendMessage} className="p-4 border-t border-white/20 glass-gradient">
               <div className="flex gap-2">
                 <input
                   type="text"
                   value={inputMessage}
                   onChange={(e) => setInputMessage(e.target.value)}
                   placeholder="Ask me anything..."
-                  className="flex-1 px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:border-primary-500 focus:outline-none text-sm"
+                  className="flex-1 px-4 py-3 glass-strong rounded-xl focus:border-primary-500 focus:outline-none text-sm text-gray-800 placeholder-gray-500 font-medium"
                 />
                 <motion.button
                   type="submit"
                   disabled={!inputMessage.trim() || isTyping}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="px-4 py-2 bg-primary-500 hover:bg-primary-600 disabled:bg-gray-600 disabled:cursor-not-allowed text-white rounded-lg transition-colors duration-200"
+                  className="px-4 py-3 bg-gradient-primary hover:bg-gradient-secondary disabled:bg-gray-300 disabled:cursor-not-allowed text-white rounded-xl transition-all duration-200 shadow-lg"
                 >
                   <Send size={16} />
                 </motion.button>

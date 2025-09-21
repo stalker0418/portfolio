@@ -100,37 +100,37 @@ const ChatPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-dark-900 flex flex-col">
+    <div className="min-h-screen flex flex-col">
       {/* Header */}
       <motion.header 
         initial={{ y: -50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        className="border-b border-gray-800 bg-dark-900/80 backdrop-blur-sm sticky top-0 z-10"
+        className="border-b border-white/20 glass-elevated sticky top-0 z-10"
       >
         <div className="container mx-auto px-6 py-4 flex items-center justify-between">
           <motion.button
             onClick={() => navigate('/')}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors duration-200"
+            className="flex items-center gap-2 text-gray-700 hover:text-primary-600 transition-colors duration-200 font-medium"
           >
             <ArrowLeft size={20} />
             <span>Back to Portfolio</span>
           </motion.button>
           
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-primary-500 rounded-full flex items-center justify-center">
+            <div className="w-8 h-8 bg-gradient-primary rounded-full flex items-center justify-center shadow-lg">
               <Bot size={18} />
             </div>
             <div>
-              <h1 className="font-semibold text-white">Chat with Manas's AI</h1>
-              <p className="text-xs text-gray-400">Powered by AI • Ask me anything</p>
+              <h1 className="font-semibold text-gray-800">Chat with Manas's AI</h1>
+              <p className="text-xs text-gray-600">Powered by AI • Ask me anything</p>
             </div>
           </div>
           
-          <div className="flex items-center gap-2 text-primary-500">
+          <div className="flex items-center gap-2 text-primary-700">
             <Sparkles size={16} />
-            <span className="text-sm">AI Assistant</span>
+            <span className="text-sm font-medium">AI Assistant</span>
           </div>
         </div>
       </motion.header>
@@ -152,21 +152,21 @@ const ChatPage: React.FC = () => {
                 }`}>
                   <div className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 ${
                     message.sender === 'user' 
-                      ? 'bg-primary-500' 
-                      : 'bg-gray-700'
+                      ? 'bg-gradient-primary' 
+                      : 'bg-gradient-secondary'
                   }`}>
                     {message.sender === 'user' ? <User size={18} /> : <Bot size={18} />}
                   </div>
                   <div className={`rounded-2xl px-6 py-4 ${
                     message.sender === 'user'
-                      ? 'bg-primary-500 text-white'
-                      : 'bg-gray-800 text-gray-100 border border-gray-700'
+                      ? 'bg-gradient-primary text-white'
+                      : 'bg-gradient-to-br from-primary-50 to-primary-100 border border-primary-200 text-gray-800'
                   }`}>
                     <p className="text-sm leading-relaxed whitespace-pre-wrap">{message.text}</p>
                     <p className={`text-xs mt-2 ${
                       message.sender === 'user' 
-                        ? 'text-primary-100' 
-                        : 'text-gray-500'
+                        ? 'text-white/70' 
+                        : 'text-gray-600'
                     }`}>
                       {formatTime(message.timestamp)}
                     </p>
@@ -183,14 +183,14 @@ const ChatPage: React.FC = () => {
                 className="flex justify-start"
               >
                 <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center">
+                  <div className="w-10 h-10 bg-gradient-secondary rounded-full flex items-center justify-center">
                     <Bot size={18} />
                   </div>
-                  <div className="bg-gray-800 border border-gray-700 rounded-2xl px-6 py-4">
+                  <div className="bg-gradient-to-br from-primary-50 to-primary-100 border border-primary-200 rounded-2xl px-6 py-4">
                     <div className="flex space-x-2">
-                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce delay-100"></div>
-                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce delay-200"></div>
+                      <div className="w-2 h-2 bg-primary-500 rounded-full animate-bounce"></div>
+                      <div className="w-2 h-2 bg-secondary-500 rounded-full animate-bounce delay-100"></div>
+                      <div className="w-2 h-2 bg-accent-500 rounded-full animate-bounce delay-200"></div>
                     </div>
                   </div>
                 </div>
@@ -204,7 +204,7 @@ const ChatPage: React.FC = () => {
         <motion.div 
           initial={{ y: 50, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          className="border-t border-gray-800 bg-dark-900/80 backdrop-blur-sm sticky bottom-0 p-6"
+          className="border-t border-white/20 glass-elevated sticky bottom-0 p-6"
         >
           <form onSubmit={sendMessage} className="max-w-4xl mx-auto">
             <div className="flex gap-4 items-end">
@@ -215,11 +215,11 @@ const ChatPage: React.FC = () => {
                   value={inputMessage}
                   onChange={(e) => setInputMessage(e.target.value)}
                   placeholder="Ask me anything about Manas..."
-                  className="w-full px-6 py-4 bg-gray-800 border border-gray-700 rounded-2xl focus:border-primary-500 focus:outline-none text-white placeholder-gray-400 resize-none"
+                  className="w-full px-6 py-4 glass-strong rounded-2xl focus:border-primary-500 focus:outline-none text-gray-800 placeholder-gray-500 resize-none font-medium"
                   disabled={isTyping}
                 />
                 <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500">
-                  <kbd className="px-2 py-1 text-xs bg-gray-700 rounded">Enter</kbd>
+                  <kbd className="px-2 py-1 text-xs glass-light rounded">Enter</kbd>
                 </div>
               </div>
               <motion.button
@@ -227,12 +227,12 @@ const ChatPage: React.FC = () => {
                 disabled={!inputMessage.trim() || isTyping}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="px-6 py-4 bg-primary-500 hover:bg-primary-600 disabled:bg-gray-700 disabled:cursor-not-allowed text-white rounded-2xl transition-all duration-200 flex items-center justify-center min-w-[60px]"
+                className="px-6 py-4 bg-gradient-primary hover:bg-gradient-secondary disabled:bg-gray-300 disabled:cursor-not-allowed text-white rounded-2xl transition-all duration-200 flex items-center justify-center min-w-[60px] shadow-lg"
               >
                 <Send size={20} />
               </motion.button>
             </div>
-            <p className="text-xs text-gray-500 mt-3 text-center">
+            <p className="text-xs text-gray-600 mt-3 text-center">
               Press Enter to send • This AI assistant knows about Manas's experience, projects, and skills
             </p>
           </form>

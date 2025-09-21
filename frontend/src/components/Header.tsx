@@ -29,7 +29,7 @@ const Header: React.FC = () => {
       transition={{ duration: 0.5 }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled 
-          ? 'bg-dark-900/95 backdrop-blur-md border-b border-primary-500/20' 
+          ? 'glass-elevated border-b border-white/20' 
           : 'bg-transparent'
       }`}
     >
@@ -44,7 +44,7 @@ const Header: React.FC = () => {
           </motion.div>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden md:flex items-center space-x-2">
             {navItems.map((item, index) => (
               <motion.a
                 key={item.name}
@@ -52,8 +52,8 @@ const Header: React.FC = () => {
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
-                whileHover={{ scale: 1.1 }}
-                className="text-gray-300 hover:text-primary-500 transition-colors duration-200"
+                whileHover={{ scale: 1.05, y: -2 }}
+                className="px-4 py-2 rounded-xl text-gray-700 hover:text-primary-600 hover:glass-light transition-all duration-200 font-medium"
               >
                 {item.name}
               </motion.a>
@@ -62,12 +62,14 @@ const Header: React.FC = () => {
 
           {/* Mobile Menu Button */}
           <div className="md:hidden">
-            <button
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="text-gray-300 hover:text-primary-500"
+              className="w-10 h-10 glass-card rounded-full flex items-center justify-center text-gray-700 hover:text-primary-500"
             >
-              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
+              {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+            </motion.button>
           </div>
         </div>
 
@@ -77,7 +79,7 @@ const Header: React.FC = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden mt-4 pb-4 border-t border-primary-500/20"
+            className="md:hidden mt-4 pb-4 glass-card rounded-2xl p-4"
           >
             {navItems.map((item, index) => (
               <motion.a
@@ -87,7 +89,7 @@ const Header: React.FC = () => {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: index * 0.1 }}
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="block py-2 text-gray-300 hover:text-primary-500 transition-colors duration-200"
+                className="block py-3 px-4 rounded-xl text-gray-700 hover:text-primary-600 hover:glass-light transition-all duration-200 font-medium"
               >
                 {item.name}
               </motion.a>
