@@ -63,8 +63,14 @@ const Contact: React.FC = () => {
   ];
 
   return (
-    <section id="contact" className="py-20">
-      <div className="container mx-auto px-6">
+    <section id="contact" className="py-24 md:py-32 relative overflow-hidden">
+      {/* Background decoration */}
+      <div className="absolute inset-0">
+        <div className="absolute top-10 right-20 w-72 h-72 bg-gradient-to-r from-purple-200/30 to-pink-200/30 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-10 left-20 w-96 h-96 bg-gradient-to-r from-blue-200/30 to-indigo-200/30 rounded-full blur-3xl"></div>
+      </div>
+      
+      <div className="container mx-auto px-6 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -72,10 +78,10 @@ const Contact: React.FC = () => {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            Get In <span className="gradient-text">Touch</span>
+          <h2 className="text-[32px] md:text-[36px] font-bold mb-6 text-gray-800 tracking-tight">
+            Get In <span className="bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 bg-clip-text text-transparent">Touch</span>
           </h2>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+          <p className="text-lg font-medium text-gray-600 max-w-3xl mx-auto leading-relaxed">
             Have a project in mind or want to discuss opportunities? 
             I'd love to hear from you. Let's create something amazing together!
           </p>
@@ -89,7 +95,7 @@ const Contact: React.FC = () => {
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
-            <h3 className="text-2xl font-bold mb-8">Contact Information</h3>
+            <h3 className="text-2xl font-bold mb-8 text-gray-800">Contact Information</h3>
             
             <div className="space-y-6 mb-8">
               {contactInfo.map((info, index) => (
@@ -101,14 +107,14 @@ const Contact: React.FC = () => {
                   transition={{ duration: 0.6, delay: index * 0.1 }}
                   viewport={{ once: true }}
                   whileHover={{ scale: 1.02 }}
-                  className="flex items-center gap-4 p-4 glass rounded-lg hover:border-primary-500/50 transition-all duration-200"
+                  className="flex items-center gap-4 p-4 bg-white/80 backdrop-blur-lg rounded-lg border border-purple-200 hover:border-purple-300 transition-all duration-200 shadow-lg hover:shadow-xl"
                 >
-                  <div className="text-primary-500">
+                  <div className="text-purple-600">
                     {info.icon}
                   </div>
                   <div>
-                    <h4 className="font-semibold">{info.title}</h4>
-                    <p className="text-gray-400">{info.value}</p>
+                    <h4 className="font-semibold text-gray-800">{info.title}</h4>
+                    <p className="text-gray-600">{info.value}</p>
                   </div>
                 </motion.a>
               ))}
@@ -116,7 +122,7 @@ const Contact: React.FC = () => {
 
             {/* Social Links */}
             <div>
-              <h4 className="text-xl font-semibold mb-4">Follow Me</h4>
+              <h4 className="text-xl font-semibold mb-4 text-gray-800">Follow Me</h4>
               <div className="flex gap-4">
                 {socialLinks.map((social, index) => (
                   <motion.a
@@ -129,7 +135,7 @@ const Contact: React.FC = () => {
                     transition={{ duration: 0.6, delay: index * 0.1 }}
                     viewport={{ once: true }}
                     whileHover={{ scale: 1.2, rotate: 5 }}
-                    className="p-3 glass rounded-lg text-gray-400 hover:text-primary-500 hover:border-primary-500/50 transition-all duration-200"
+                    className="p-3 bg-white/80 backdrop-blur-lg rounded-lg text-gray-600 hover:text-purple-600 hover:border-purple-300 border border-purple-200 transition-all duration-200 shadow-lg hover:shadow-xl"
                   >
                     {social.icon}
                   </motion.a>
@@ -145,12 +151,12 @@ const Contact: React.FC = () => {
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
-            <form onSubmit={handleSubmit} className="glass rounded-xl p-8">
-              <h3 className="text-2xl font-bold mb-6">Send Message</h3>
+            <form onSubmit={handleSubmit} className="bg-white/80 backdrop-blur-lg rounded-xl p-8 border border-purple-200 shadow-xl">
+              <h3 className="text-2xl font-bold mb-6 text-gray-800">Send Message</h3>
               
               <div className="grid md:grid-cols-2 gap-6 mb-6">
                 <div>
-                  <label htmlFor="name" className="block text-sm font-medium mb-2">
+                  <label htmlFor="name" className="block text-sm font-medium mb-2 text-gray-700">
                     Name
                   </label>
                   <input
@@ -160,12 +166,12 @@ const Contact: React.FC = () => {
                     value={formData.name}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 bg-dark-700 border border-gray-600 rounded-lg focus:border-primary-500 focus:outline-none transition-colors duration-200"
+                    className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:border-purple-500 focus:outline-none transition-colors duration-200 text-gray-800"
                     placeholder="Your Name"
                   />
                 </div>
                 <div>
-                  <label htmlFor="email" className="block text-sm font-medium mb-2">
+                  <label htmlFor="email" className="block text-sm font-medium mb-2 text-gray-700">
                     Email
                   </label>
                   <input
@@ -175,14 +181,14 @@ const Contact: React.FC = () => {
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 bg-dark-700 border border-gray-600 rounded-lg focus:border-primary-500 focus:outline-none transition-colors duration-200"
-                    placeholder="your@email.com"
+                  className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:border-purple-500 focus:outline-none transition-colors duration-200 text-gray-800"
+                  placeholder="your@email.com"
                   />
                 </div>
               </div>
 
               <div className="mb-6">
-                <label htmlFor="subject" className="block text-sm font-medium mb-2">
+                <label htmlFor="subject" className="block text-sm font-medium mb-2 text-gray-700">
                   Subject
                 </label>
                 <input
@@ -192,13 +198,13 @@ const Contact: React.FC = () => {
                   value={formData.subject}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 bg-dark-700 border border-gray-600 rounded-lg focus:border-primary-500 focus:outline-none transition-colors duration-200"
+                  className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:border-purple-500 focus:outline-none transition-colors duration-200 text-gray-800"
                   placeholder="Project Discussion"
                 />
               </div>
 
               <div className="mb-6">
-                <label htmlFor="message" className="block text-sm font-medium mb-2">
+                <label htmlFor="message" className="block text-sm font-medium mb-2 text-gray-700">
                   Message
                 </label>
                 <textarea
@@ -208,7 +214,7 @@ const Contact: React.FC = () => {
                   onChange={handleChange}
                   required
                   rows={5}
-                  className="w-full px-4 py-3 bg-dark-700 border border-gray-600 rounded-lg focus:border-primary-500 focus:outline-none transition-colors duration-200 resize-none"
+                  className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:border-purple-500 focus:outline-none transition-colors duration-200 resize-none text-gray-800"
                   placeholder="Tell me about your project..."
                 />
               </div>
@@ -217,7 +223,7 @@ const Contact: React.FC = () => {
                 type="submit"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                className="w-full bg-primary-500 hover:bg-primary-600 text-white py-3 px-6 rounded-lg font-semibold flex items-center justify-center gap-2 transition-colors duration-200"
+                className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white py-3 px-6 rounded-lg font-semibold flex items-center justify-center gap-2 transition-colors duration-200"
               >
                 <Send size={20} />
                 Send Message

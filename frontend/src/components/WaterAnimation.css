@@ -1,0 +1,21 @@
+/* Simple Water Animation - Light Background with Cursor Ripples */
+.water-animation {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #f3e8ff 0%, #fce7f3 50%, #f3e8ff 100%) !important;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.water-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
+}
