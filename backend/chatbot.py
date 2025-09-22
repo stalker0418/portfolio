@@ -1,6 +1,7 @@
 """
-Chatbot module for AI-powered chat functionality.
+Chatbot module for AI-powered chat functionality with RAG support.
 Supports multiple AI providers: OpenAI, Anthropic, TogetherAI
+Includes Retrieval-Augmented Generation (RAG) for contextual responses.
 """
 from typing import List, Optional
 from fastapi import HTTPException
@@ -9,6 +10,9 @@ from datetime import datetime
 import logging
 import os
 from together import Together
+
+# Import RAG system
+from rag_system import RAGSystem
 
 # Configure logging
 logger = logging.getLogger(__name__)
@@ -23,12 +27,14 @@ class ChatMessage(BaseModel):
 
 class ChatbotWrapper:
     """
-    AI Chatbot wrapper that supports multiple providers.
+    AI Chatbot wrapper that supports multiple providers with RAG capabilities.
     Currently supports: OpenAI, Anthropic, TogetherAI
+    Includes Retrieval-Augmented Generation for contextual responses.
     """
     
-    def __init__(self):
+    def __init__(self, enable_rag: bool = True):
         self.default_model = "meta-llama/Llama-3.3-70B-Instruct-Turbo-Free"
+        self.enable_rag = enable_rag
         
         # Initialize Together AI client
         try:
@@ -37,6 +43,18 @@ class ChatbotWrapper:
         except Exception as e:
             logger.error(f"Failed to initialize Together AI client: {str(e)}")
             self.together_client = None
+        
+        # Initialize RAG system
+        if self.enable_rag:
+            try:
+                self.rag_system = RAGSystem()
+                logger.info("RAG system initialized successfully")
+            except Exception as e:
+                logger.error(f"Failed to initialize RAG system: {str(e)}")
+                self.rag_system = None
+                self.enable_rag = False
+        else:
+            self.rag_system = None
     
     def _get_provider_from_model(self, model_name: str) -> str:
         """Determine which provider to use based on model name patterns."""
@@ -60,7 +78,7 @@ class ChatbotWrapper:
         conversation_history: Optional[List[ChatMessage]] = None
     ) -> str:
         """
-        Send a chat message and get response from the specified AI model.
+        Send a chat message and get response from the specified AI model with RAG support.
         """
         # Use default model if none specified
         if model_name is None:
@@ -72,9 +90,25 @@ class ChatbotWrapper:
         if conversation_history is None:
             conversation_history = []
         
+        # Get relevant context using RAG if enabled
+        context = ""
+        citations = []
+        if self.enable_rag and self.rag_system:
+            try:
+                retrieval_results = self.rag_system.retrieve_context(message, max_results=3)
+                if retrieval_results:
+                    context, citations = self.rag_system.format_context_with_citations(retrieval_results)
+                    logger.info(f"Retrieved context from {len(retrieval_results)} sources")
+            except Exception as e:
+                logger.warning(f"Failed to retrieve RAG context: {str(e)}")
+        
         try:
             if provider == "togetherai":
-                return await self._chat_togetherai(message, model_name, conversation_history)
+                response = await self._chat_togetherai(message, model_name, conversation_history, context)
+                # Add citations to response if available
+                if citations:
+                    response += "\n\n**Sources:**\n" + "\n".join(citations)
+                return response
             elif provider == "openai":
                 # TODO: Implement OpenAI integration
                 return "OpenAI integration coming soon! This is a placeholder response."
@@ -92,10 +126,11 @@ class ChatbotWrapper:
         self, 
         message: str, 
         model_name: str, 
-        conversation_history: List[ChatMessage]
+        conversation_history: List[ChatMessage],
+        context: str = ""
     ) -> str:
         """
-        TogetherAI implementation using the Together AI SDK.
+        TogetherAI implementation using the Together AI SDK with RAG context.
         """
         if not self.together_client:
             raise HTTPException(
@@ -107,10 +142,17 @@ class ChatbotWrapper:
             # Build messages array from conversation history
             messages = []
             
-            # Add system message for context
+            # Build enhanced system message with context
+            system_message = """You are Manas Sanjay Pakalapati's AI assistant on his portfolio website. You are knowledgeable about his background, skills, and projects. Be helpful, professional, and engaging.
+
+When answering questions, use the provided context information to give accurate and specific responses about Manas's experience, skills, projects, and background. Always be truthful and if you don't have specific information, say so."""
+
+            if context:
+                system_message += f"\n\nRelevant Context Information:\n{context}\n\nUse this context to provide specific and accurate information about Manas's background, experience, and projects."
+            
             messages.append({
                 "role": "system",
-                "content": "You are Manas's AI assistant on his portfolio website. You are knowledgeable about his background, skills, and projects. Be helpful, professional, and engaging."
+                "content": system_message
             })
             
             # Add conversation history

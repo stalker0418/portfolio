@@ -31,6 +31,11 @@ primary_region = "ord"
   HOST = "0.0.0.0"
   PORT = "8000"
   PYTHONPATH = "/app"
+  # RAG System Configuration
+  ENABLE_RAG = "true"
+  VECTOR_DB_PATH = "/app/vector_db"
+  RESOURCES_DIR = "/app/resources"
+  SKIP_RAG_UPDATE = "false"  # Set to "true" to skip RAG update during deployment
 
 # VM configuration - FREE TIER SETTINGS
 [[vm]]
@@ -43,6 +48,11 @@ primary_region = "ord"
   type = "requests"
   hard_limit = 25                         # Max 25 concurrent requests
   soft_limit = 20                         # Start warning at 20
+
+# Volume for persistent vector database storage
+[[mounts]]
+  source = "portfolio_vector_db"
+  destination = "/app/vector_db"
 
 # Restart policy
 [[restart]]

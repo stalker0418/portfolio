@@ -10,9 +10,14 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     PIP_NO_CACHE_DIR=1 \
     PIP_DISABLE_PIP_VERSION_CHECK=1
 
-# Step 4: Install system dependencies (gcc needed for some Python packages)
+# Step 4: Install system dependencies (gcc needed for some Python packages, tesseract for OCR)
 RUN apt-get update && apt-get install -y \
     gcc \
+    tesseract-ocr \
+    tesseract-ocr-eng \
+    poppler-utils \
+    libgl1-mesa-glx \
+    libglib2.0-0 \
     && rm -rf /var/lib/apt/lists/*
 
 # Step 5: Copy dependency files first (for Docker layer caching)
@@ -39,5 +44,5 @@ EXPOSE 8000
 HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
     CMD python -c "import requests; requests.get('http://localhost:8000/health')" || exit 1
 
-# Step 11: Run command - start your FastAPI app
-CMD ["python", "-m", "uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000"]
+# Step 11: Run command - use startup script that updates RAG database and starts app
+CMD ["python", "startup.py"]

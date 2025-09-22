@@ -9,8 +9,9 @@ import logging
 from datetime import datetime
 from dotenv import load_dotenv
 
-# Import chatbot from separate module
+# Import chatbot and RAG system from separate modules
 from chatbot import ChatbotWrapper, ChatMessage
+from rag_system import RAGSystem
 
 load_dotenv()
 
@@ -61,8 +62,28 @@ class HealthResponse(BaseModel):
     version: str
 
 
-# Initialize chatbot
+class RAGUpdateResponse(BaseModel):
+    success: bool
+    message: str
+    timestamp: datetime
+    stats: Optional[dict] = None
+
+
+class RAGStatsResponse(BaseModel):
+    stats: dict
+    timestamp: datetime
+
+
+# Initialize chatbot and RAG system
 chatbot = ChatbotWrapper()
+rag_system = None
+
+# Try to initialize RAG system
+try:
+    rag_system = RAGSystem()
+    logger.info("RAG system initialized for API endpoints")
+except Exception as e:
+    logger.warning(f"RAG system initialization failed: {str(e)}")
 
 
 # API Endpoints
@@ -106,6 +127,60 @@ async def chat_endpoint(request: ChatRequest):
         raise HTTPException(status_code=500, detail=str(e))
 
 
+@app.post("/rag/update", response_model=RAGUpdateResponse)
+async def update_rag_database():
+    """Update the RAG database with latest resources."""
+    try:
+        if not rag_system:
+            raise HTTPException(
+                status_code=500, 
+                detail="RAG system not initialized"
+            )
+        
+        logger.info("Starting RAG database update via API...")
+        success = rag_system.process_all_resources()
+        
+        if success:
+            stats = rag_system.get_database_stats()
+            return RAGUpdateResponse(
+                success=True,
+                message="RAG database updated successfully",
+                timestamp=datetime.now(),
+                stats=stats
+            )
+        else:
+            return RAGUpdateResponse(
+                success=False,
+                message="Failed to update RAG database",
+                timestamp=datetime.now()
+            )
+            
+    except Exception as e:
+        logger.error(f"RAG update endpoint error: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.get("/rag/stats", response_model=RAGStatsResponse)
+async def get_rag_stats():
+    """Get RAG database statistics."""
+    try:
+        if not rag_system:
+            raise HTTPException(
+                status_code=500, 
+                detail="RAG system not initialized"
+            )
+        
+        stats = rag_system.get_database_stats()
+        return RAGStatsResponse(
+            stats=stats,
+            timestamp=datetime.now()
+        )
+        
+    except Exception as e:
+        logger.error(f"RAG stats endpoint error: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 @app.get("/")
 async def root():
     """Root endpoint with basic info."""
@@ -115,6 +190,8 @@ async def root():
         "endpoints": {
             "health": "/health",
             "chat": "/chat",
+            "rag_update": "/rag/update",
+            "rag_stats": "/rag/stats",
             "docs": "/docs"
         }
     }

@@ -16,12 +16,12 @@ resources:
       type: "social"
     
     github:
-      url: "https://github.com/manassanjay"
+      url: "https://github.com/stalker0418"
       description: "GitHub profile with repositories"
       type: "social"
     
     medium:
-      url: "https://medium.com/@manassanjay"
+      url: "https://medium.com/@pakalapati.sanjay"
       description: "Medium articles and blog posts"
       type: "content"
   
