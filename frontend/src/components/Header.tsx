@@ -46,7 +46,7 @@ const Header: React.FC = () => {
           </motion.div>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden md:flex items-center space-x-2">
             {navItems.map((item, index) => (
               <motion.a
                 key={item.name}
@@ -64,12 +64,14 @@ const Header: React.FC = () => {
 
           {/* Mobile Menu Button */}
           <div className="md:hidden">
-            <button
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="text-[#0f172a] hover:text-primary-600 transition-colors duration-200"
             >
-              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
+              {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+            </motion.button>
           </div>
         </div>
 

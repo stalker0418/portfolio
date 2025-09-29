@@ -119,7 +119,7 @@ const ChatPage: React.FC = () => {
           </motion.button>
           
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-primary-500 rounded-full flex items-center justify-center">
+            <div className="w-8 h-8 bg-gradient-primary rounded-full flex items-center justify-center shadow-lg">
               <Bot size={18} />
             </div>
             <div>
@@ -128,9 +128,9 @@ const ChatPage: React.FC = () => {
             </div>
           </div>
           
-          <div className="flex items-center gap-2 text-primary-500">
+          <div className="flex items-center gap-2 text-primary-700">
             <Sparkles size={16} />
-            <span className="text-sm">AI Assistant</span>
+            <span className="text-sm font-medium">AI Assistant</span>
           </div>
         </div>
       </motion.header>
@@ -183,14 +183,14 @@ const ChatPage: React.FC = () => {
                 className="flex justify-start"
               >
                 <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center">
+                  <div className="w-10 h-10 bg-gradient-secondary rounded-full flex items-center justify-center">
                     <Bot size={18} />
                   </div>
-                  <div className="bg-gray-800 border border-gray-700 rounded-2xl px-6 py-4">
+                  <div className="bg-gradient-to-br from-primary-50 to-primary-100 border border-primary-200 rounded-2xl px-6 py-4">
                     <div className="flex space-x-2">
-                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce delay-100"></div>
-                      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce delay-200"></div>
+                      <div className="w-2 h-2 bg-primary-500 rounded-full animate-bounce"></div>
+                      <div className="w-2 h-2 bg-secondary-500 rounded-full animate-bounce delay-100"></div>
+                      <div className="w-2 h-2 bg-accent-500 rounded-full animate-bounce delay-200"></div>
                     </div>
                   </div>
                 </div>

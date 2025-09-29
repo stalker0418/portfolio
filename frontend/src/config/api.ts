@@ -9,7 +9,7 @@ export const API_BASE_URL = (() => {
     return 'http://localhost:8000';
   }
   
-  // Always use Fly.io backend in production (temporary fix for debugging)
+  // Always use Fly.io backend in production
   return 'https://manas-portfolio-backend.fly.dev';
 })();
 

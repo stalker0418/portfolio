@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { ChevronDown, Github, Linkedin, Mail, Download, MessageSquare, Send } from 'lucide-react';
+import { ChevronDown, Github, Linkedin, Mail, Download, MessageSquare, Send, Sparkles, Bot, User } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import PaintCursor from './PaintCursor';
 
 const Hero: React.FC = () => {
   const navigate = useNavigate();
@@ -47,6 +48,21 @@ const Hero: React.FC = () => {
     visible: {
       y: 0,
       opacity: 1
+    }
+  };
+
+  const chatVariants = {
+    hidden: { scale: 0.8, opacity: 0, y: 50 },
+    visible: {
+      scale: 1,
+      opacity: 1,
+      y: 0,
+      transition: {
+        type: "spring",
+        stiffness: 100,
+        damping: 20,
+        delay: 0.8
+      }
     }
   };
 

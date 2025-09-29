@@ -2,7 +2,7 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
 * {
   margin: 0;
@@ -16,8 +16,10 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #0f172a;
-  color: #f8fafc;
+  background: linear-gradient(135deg, #f0f9ff 0%, #ecfdf5 25%, #fefbf3 50%, #fdf4ff 75%, #f0f9ff 100%);
+  background-attachment: fixed;
+  color: #1f2937;
+  min-height: 100vh;
 }
 
 code {
@@ -35,27 +37,34 @@ html {
 }
 
 ::-webkit-scrollbar-track {
-  background: #1e293b;
+  background: rgba(255, 255, 255, 0.1);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #3b82f6;
+  background: linear-gradient(135deg, #10b981, #f59e0b);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #2563eb;
+  background: linear-gradient(135deg, #059669, #d97706);
 }
 
-/* Gradient text utility */
+/* Gradient text utilities */
 .gradient-text {
-  background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+  background: linear-gradient(135deg, #10b981 0%, #f59e0b 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-/* Glass morphism effect */
+.gradient-text-accent {
+  background: linear-gradient(135deg, #10b981 0%, #d946ef 50%, #f59e0b 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Enhanced Glassmorphism System */
 .glass {
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(10px);
