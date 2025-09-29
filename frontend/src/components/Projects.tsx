@@ -34,8 +34,14 @@ const Projects: React.FC = () => {
   ];
 
   return (
-    <section id="projects" className="py-20">
-      <div className="container mx-auto px-6">
+    <section id="projects" className="py-24 md:py-32 relative overflow-hidden">
+      {/* Background decoration */}
+      <div className="absolute inset-0">
+        <div className="absolute top-10 left-10 w-72 h-72 bg-gradient-to-r from-pink-200/30 to-purple-200/30 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-10 right-10 w-96 h-96 bg-gradient-to-r from-blue-200/30 to-indigo-200/30 rounded-full blur-3xl"></div>
+      </div>
+      
+      <div className="container mx-auto px-6 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -43,10 +49,10 @@ const Projects: React.FC = () => {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            Featured <span className="gradient-text">Projects</span>
+          <h2 className="text-[32px] md:text-[36px] font-bold mb-6 text-gray-800 tracking-tight">
+            Featured <span className="bg-gradient-to-r from-purple-600 via-pink-600 to-blue-600 bg-clip-text text-transparent">Projects</span>
           </h2>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+          <p className="text-lg font-medium text-gray-600 max-w-3xl mx-auto leading-relaxed">
             Here are some of my recent projects that showcase my skills in AI, 
             full-stack development, and creating innovative solutions.
           </p>
@@ -60,23 +66,53 @@ const Projects: React.FC = () => {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
               viewport={{ once: true }}
-              whileHover={{ y: -5 }}
-              className="glass rounded-xl overflow-hidden group"
+              whileHover={{ y: -8, rotateY: 5 }}
+              className="bg-white/80 backdrop-blur-lg rounded-xl overflow-hidden group perspective-1000 transform-style-preserve-3d hover:shadow-2xl transition-all duration-300 border border-purple-200 hover:border-purple-300"
+              style={{ transformStyle: 'preserve-3d' }}
             >
               {/* Project Image */}
-              <div className="relative h-48 bg-gradient-to-br from-primary-500/20 to-purple-500/20 flex items-center justify-center">
-                <div className="text-primary-500 group-hover:scale-110 transition-transform duration-300">
+              <div className="relative h-48 bg-gradient-to-br from-purple-100 to-pink-100 flex items-center justify-center overflow-hidden">
+                <motion.div 
+                  className="text-purple-600 z-10"
+                  whileHover={{ scale: 1.2, rotate: 10 }}
+                  transition={{ duration: 0.3 }}
+                >
                   {project.icon}
+                </motion.div>
+                <div className="absolute inset-0 bg-gradient-to-br from-purple-200/20 to-pink-200/20 group-hover:from-purple-200/40 group-hover:to-pink-200/40 transition-all duration-300"></div>
+                
+                {/* Floating particles on hover */}
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  {[...Array(5)].map((_, i) => (
+                    <motion.div
+                      key={i}
+                      className="absolute w-2 h-2 bg-primary-400/60 rounded-full"
+                      initial={{ 
+                        x: Math.random() * 100 + '%',
+                        y: Math.random() * 100 + '%',
+                        scale: 0 
+                      }}
+                      whileHover={{ 
+                        scale: 1,
+                        y: [null, -20, -40],
+                        opacity: [0.6, 0.3, 0]
+                      }}
+                      transition={{ 
+                        duration: 2,
+                        delay: i * 0.1,
+                        repeat: Infinity 
+                      }}
+                    />
+                  ))}
                 </div>
-                <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors duration-300"></div>
               </div>
 
               {/* Project Content */}
               <div className="p-6">
-                <h3 className="text-xl font-bold mb-3 group-hover:text-primary-500 transition-colors duration-200">
+                <h3 className="text-xl font-bold mb-3 text-gray-800 group-hover:text-purple-600 transition-colors duration-200">
                   {project.title}
                 </h3>
-                <p className="text-gray-400 mb-4 leading-relaxed">
+                <p className="text-gray-600 mb-4 leading-relaxed">
                   {project.description}
                 </p>
 
@@ -85,7 +121,7 @@ const Projects: React.FC = () => {
                   {project.tech.map((tech, techIndex) => (
                     <span
                       key={techIndex}
-                      className="px-3 py-1 text-sm bg-primary-500/20 text-primary-300 rounded-full"
+                      className="px-3 py-1 text-sm bg-purple-100 text-purple-700 rounded-full border border-purple-200"
                     >
                       {tech}
                     </span>
@@ -100,7 +136,7 @@ const Projects: React.FC = () => {
                     rel="noopener noreferrer"
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.95 }}
-                    className="flex items-center gap-2 text-gray-400 hover:text-primary-500 transition-colors duration-200"
+                    className="flex items-center gap-2 text-gray-600 hover:text-purple-600 transition-colors duration-200"
                   >
                     <Github size={18} />
                     Code
@@ -111,7 +147,7 @@ const Projects: React.FC = () => {
                     rel="noopener noreferrer"
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.95 }}
-                    className="flex items-center gap-2 text-gray-400 hover:text-primary-500 transition-colors duration-200"
+                    className="flex items-center gap-2 text-gray-600 hover:text-purple-600 transition-colors duration-200"
                   >
                     <ExternalLink size={18} />
                     Live Demo
@@ -135,7 +171,7 @@ const Projects: React.FC = () => {
             rel="noopener noreferrer"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="inline-flex items-center gap-2 border border-primary-500 text-primary-500 hover:bg-primary-500 hover:text-white px-6 py-3 rounded-full font-semibold transition-all duration-200"
+            className="inline-flex items-center gap-2 border border-purple-600 text-purple-600 hover:bg-purple-600 hover:text-white px-6 py-3 rounded-full font-semibold transition-all duration-200"
           >
             <Github size={20} />
             View All Projects

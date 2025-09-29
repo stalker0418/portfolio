@@ -115,7 +115,7 @@ const ChatBot: React.FC = () => {
                   <Bot size={18} />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-gray-800">AI Assistant</h3>
+                  <h3 className="font-semibold">AI Assistant</h3>
                   <p className="text-xs text-gray-600">Ask me about Manas</p>
                 </div>
               </div>
@@ -148,7 +148,7 @@ const ChatBot: React.FC = () => {
                       <p className="text-sm">{message.text}</p>
                       <p className={`text-xs mt-1 ${
                         message.sender === 'user' 
-                          ? 'text-white/70' 
+                          ? 'text-primary-100' 
                           : 'text-gray-600'
                       }`}>
                         {formatTime(message.timestamp)}

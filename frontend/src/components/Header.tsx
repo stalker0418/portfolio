@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
+import Logo from './Logo';
 
 const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -29,8 +30,8 @@ const Header: React.FC = () => {
       transition={{ duration: 0.5 }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled 
-          ? 'glass-elevated border-b border-white/20' 
-          : 'bg-transparent'
+          ? 'bg-white/95 backdrop-blur-md border-b border-purple-300/60 shadow-lg' 
+          : 'bg-white/90 backdrop-blur-md shadow-sm'
       }`}
     >
       <nav className="container mx-auto px-6 py-4">
@@ -38,9 +39,10 @@ const Header: React.FC = () => {
           {/* Logo */}
           <motion.div
             whileHover={{ scale: 1.05 }}
-            className="text-2xl font-bold gradient-text"
+            className="flex items-center gap-3"
           >
-            Manas Sanjay
+            <Logo size={36} />
+            <span className="text-xl font-bold gradient-text">Manas Sanjay</span>
           </motion.div>
 
           {/* Desktop Navigation */}
@@ -52,8 +54,8 @@ const Header: React.FC = () => {
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
-                whileHover={{ scale: 1.05, y: -2 }}
-                className="px-4 py-2 rounded-xl text-gray-700 hover:text-primary-600 hover:glass-light transition-all duration-200 font-medium"
+                whileHover={{ scale: 1.1 }}
+                className="text-[#0f172a] hover:text-primary-600 font-semibold transition-all duration-200 hover:scale-105"
               >
                 {item.name}
               </motion.a>
@@ -66,7 +68,7 @@ const Header: React.FC = () => {
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="w-10 h-10 glass-card rounded-full flex items-center justify-center text-gray-700 hover:text-primary-500"
+              className="text-[#0f172a] hover:text-primary-600 transition-colors duration-200"
             >
               {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
             </motion.button>
@@ -79,7 +81,7 @@ const Header: React.FC = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden mt-4 pb-4 glass-card rounded-2xl p-4"
+            className="md:hidden mt-4 pb-4 border-t border-purple-300/60"
           >
             {navItems.map((item, index) => (
               <motion.a
@@ -89,7 +91,7 @@ const Header: React.FC = () => {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: index * 0.1 }}
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="block py-3 px-4 rounded-xl text-gray-700 hover:text-primary-600 hover:glass-light transition-all duration-200 font-medium"
+                className="block py-2 text-[#0f172a] hover:text-primary-600 font-semibold transition-all duration-200 hover:translate-x-2"
               >
                 {item.name}
               </motion.a>
