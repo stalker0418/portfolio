@@ -100,19 +100,19 @@ const ChatPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen bg-gradient-to-br from-purple-100 via-pink-50 to-purple-100 flex flex-col">
       {/* Header */}
       <motion.header 
         initial={{ y: -50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        className="border-b border-white/20 glass-elevated sticky top-0 z-10"
+        className="border-b border-gray-200 bg-white/80 backdrop-blur-sm sticky top-0 z-10"
       >
         <div className="container mx-auto px-6 py-4 flex items-center justify-between">
           <motion.button
             onClick={() => navigate('/')}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="flex items-center gap-2 text-gray-700 hover:text-primary-600 transition-colors duration-200 font-medium"
+            className="flex items-center gap-2 text-gray-600 hover:text-gray-800 transition-colors duration-200"
           >
             <ArrowLeft size={20} />
             <span>Back to Portfolio</span>
@@ -152,21 +152,21 @@ const ChatPage: React.FC = () => {
                 }`}>
                   <div className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 ${
                     message.sender === 'user' 
-                      ? 'bg-gradient-primary' 
-                      : 'bg-gradient-secondary'
+                      ? 'bg-primary-500 text-white' 
+                      : 'bg-gray-200 text-gray-700'
                   }`}>
                     {message.sender === 'user' ? <User size={18} /> : <Bot size={18} />}
                   </div>
                   <div className={`rounded-2xl px-6 py-4 ${
                     message.sender === 'user'
-                      ? 'bg-gradient-primary text-white'
-                      : 'bg-gradient-to-br from-primary-50 to-primary-100 border border-primary-200 text-gray-800'
+                      ? 'bg-primary-500 text-white'
+                      : 'bg-white text-gray-800 border border-gray-200 shadow-sm'
                   }`}>
                     <p className="text-sm leading-relaxed whitespace-pre-wrap">{message.text}</p>
                     <p className={`text-xs mt-2 ${
                       message.sender === 'user' 
-                        ? 'text-white/70' 
-                        : 'text-gray-600'
+                        ? 'text-primary-100' 
+                        : 'text-gray-700'
                     }`}>
                       {formatTime(message.timestamp)}
                     </p>
@@ -204,7 +204,7 @@ const ChatPage: React.FC = () => {
         <motion.div 
           initial={{ y: 50, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          className="border-t border-white/20 glass-elevated sticky bottom-0 p-6"
+          className="border-t border-gray-200 bg-white/80 backdrop-blur-sm sticky bottom-0 p-6"
         >
           <form onSubmit={sendMessage} className="max-w-4xl mx-auto">
             <div className="flex gap-4 items-end">
@@ -215,11 +215,11 @@ const ChatPage: React.FC = () => {
                   value={inputMessage}
                   onChange={(e) => setInputMessage(e.target.value)}
                   placeholder="Ask me anything about Manas..."
-                  className="w-full px-6 py-4 glass-strong rounded-2xl focus:border-primary-500 focus:outline-none text-gray-800 placeholder-gray-500 resize-none font-medium"
+                  className="w-full px-6 py-4 bg-white border border-gray-300 rounded-2xl focus:border-primary-500 focus:outline-none text-gray-800 placeholder-gray-500 resize-none"
                   disabled={isTyping}
                 />
-                <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500">
-                  <kbd className="px-2 py-1 text-xs glass-light rounded">Enter</kbd>
+                <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-600">
+                  <kbd className="px-2 py-1 text-xs bg-gray-200 text-gray-600 rounded">Enter</kbd>
                 </div>
               </div>
               <motion.button
@@ -227,7 +227,7 @@ const ChatPage: React.FC = () => {
                 disabled={!inputMessage.trim() || isTyping}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="px-6 py-4 bg-gradient-primary hover:bg-gradient-secondary disabled:bg-gray-300 disabled:cursor-not-allowed text-white rounded-2xl transition-all duration-200 flex items-center justify-center min-w-[60px] shadow-lg"
+                className="px-6 py-4 bg-primary-500 hover:bg-primary-600 disabled:bg-gray-400 disabled:cursor-not-allowed text-white rounded-2xl transition-all duration-200 flex items-center justify-center min-w-[60px]"
               >
                 <Send size={20} />
               </motion.button>

@@ -32,7 +32,7 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <Router>
-        <div className="App min-h-screen text-gray-900">
+        <div className="App min-h-screen bg-gradient-to-br from-slate-50 via-purple-50 to-slate-50 text-gray-800">
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/chat" element={<ChatPage />} />

@@ -11,6 +11,8 @@ import logging
 import os
 from together import Together
 from rag import retrieve_relevant_context
+import PyPDF2
+import yaml
 
 # Configure logging
 logger = logging.getLogger(__name__)
@@ -39,6 +41,53 @@ class ChatbotWrapper:
         except Exception as e:
             logger.error(f"Failed to initialize Together AI client: {str(e)}")
             self.together_client = None
+        
+        # Load resume content
+        self.resume_content = self._load_resume_content()
+        
+    def _load_resume_content(self) -> str:
+        """Load and extract text content from the resume PDF."""
+        try:
+            # Get the path to the resume
+            resources_dir = os.path.join(os.path.dirname(__file__), "resources")
+            
+            # Load resources.yaml to get resume path
+            resources_file = os.path.join(resources_dir, "resources.yaml")
+            if os.path.exists(resources_file):
+                with open(resources_file, 'r') as f:
+                    resources_data = yaml.safe_load(f)
+                    resume_path = resources_data.get('resources', {}).get('resume', {}).get('path', 'Manas_Sanjay_Pakalapati_Resume.pdf')
+            else:
+                resume_path = 'Manas_Sanjay_Pakalapati_Resume.pdf'
+            
+            # Full path to resume
+            full_resume_path = os.path.join(resources_dir, resume_path)
+            
+            if not os.path.exists(full_resume_path):
+                logger.warning(f"Resume PDF not found at {full_resume_path}")
+                return "Resume content not available."
+            
+            # Extract text from PDF
+            with open(full_resume_path, 'rb') as pdf_file:
+                pdf_reader = PyPDF2.PdfReader(pdf_file)
+                text_content = []
+                
+                for page_num in range(len(pdf_reader.pages)):
+                    page = pdf_reader.pages[page_num]
+                    text_content.append(page.extract_text())
+                
+                resume_text = '\n'.join(text_content)
+                
+                # Limit resume content to avoid long API calls (keep first 2000 chars for key info)
+                if len(resume_text) > 2000:
+                    resume_text = resume_text[:2000] + "\n\n[Resume content truncated for performance]"
+                
+                logger.info(f"Successfully extracted {len(resume_text)} characters from resume PDF")
+                return resume_text
+                
+        except Exception as e:
+            logger.error(f"Error loading resume content: {str(e)}")
+            return "Resume content could not be loaded due to an error."
     
     def _get_provider_from_model(self, model_name: str) -> str:
         """Determine which provider to use based on model name patterns."""
@@ -113,6 +162,7 @@ class ChatbotWrapper:
             # Build messages array from conversation history
             messages = []
             
+<<<<<<< HEAD
             # Create enhanced system message with RAG context
             system_content = "You are Manas's AI assistant on his portfolio website. You are knowledgeable about his background, skills, and projects. Be helpful, professional, and engaging."
             
@@ -126,6 +176,28 @@ class ChatbotWrapper:
             messages.append({
                 "role": "system",
                 "content": system_content
+=======
+            # Add system message for context with actual resume content
+            system_prompt = f"""You are Manas's AI assistant on his portfolio website. You have access to his complete resume and should answer questions based ONLY on the factual information provided below. Be helpful, professional, and engaging.
+
+IMPORTANT: Base your answers strictly on the resume content provided. Do not make up or assume information not present in the resume.
+
+=== MANAS'S RESUME CONTENT ===
+{self.resume_content}
+=== END OF RESUME CONTENT ===
+
+Instructions:
+- Answer questions about Manas's experience, skills, education, and projects based on the resume above
+- If asked about something not mentioned in the resume, politely say you don't have that information
+- Be conversational but accurate
+- Always be on point and on the side of Manas. Try to be as concise and helpful as possible
+- If you don't know the answer, say you don't know. Don't make up an answer.
+"""
+            
+            messages.append({
+                "role": "system",
+                "content": system_prompt
+>>>>>>> 6ce432da39c0fff1f5314fe5b9d3bcc8bc7c679e
             })
             
             # Add conversation history
@@ -144,13 +216,14 @@ class ChatbotWrapper:
             logger.info(f"Sending request to Together AI with model: {model_name}")
             logger.debug(f"Messages: {messages}")
             
-            # Make API call to Together AI
+            # Make API call to Together AI with timeout
             response = self.together_client.chat.completions.create(
                 model=model_name,
                 messages=messages,
-                max_tokens=1000,
+                max_tokens=500,  # Reduced for faster responses
                 temperature=0.7,
-                stream=False  # Ensure we get a complete response, not streaming
+                stream=False,  # Ensure we get a complete response, not streaming
+                # Note: Together API doesn't support timeout parameter directly
             )
             
             # Extract response content
