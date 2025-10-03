@@ -1,6 +1,7 @@
 """
 Chatbot module for AI-powered chat functionality.
 Supports multiple AI providers: OpenAI, Anthropic, TogetherAI
+Enhanced with RAG (Retrieval Augmented Generation) for contextual responses.
 """
 from typing import List, Optional
 from fastapi import HTTPException
@@ -9,6 +10,7 @@ from datetime import datetime
 import logging
 import os
 from together import Together
+from rag import retrieve_relevant_context
 
 # Configure logging
 logger = logging.getLogger(__name__)
@@ -104,13 +106,26 @@ class ChatbotWrapper:
             )
         
         try:
+            # Retrieve relevant context using RAG
+            logger.info(f"Retrieving relevant context for query: {message}")
+            relevant_context = retrieve_relevant_context(message, top_k=10)
+            
             # Build messages array from conversation history
             messages = []
             
-            # Add system message for context
+            # Create enhanced system message with RAG context
+            system_content = "You are Manas's AI assistant on his portfolio website. You are knowledgeable about his background, skills, and projects. Be helpful, professional, and engaging."
+            
+            if relevant_context:
+                context_text = "\n".join(relevant_context)
+                system_content += f"\n\nRelevant information about Manas:\n{context_text}\n\nUse this information to provide accurate and detailed responses about Manas's background, skills, and experience. For every project, you are talking about, you should mention the link to the project if provided."
+                logger.info(f"Added {len(relevant_context)} relevant context sentences")
+            else:
+                logger.warning("No relevant context found for the query")
+            
             messages.append({
                 "role": "system",
-                "content": "You are Manas's AI assistant on his portfolio website. You are knowledgeable about his background, skills, and projects. Be helpful, professional, and engaging."
+                "content": system_content
             })
             
             # Add conversation history

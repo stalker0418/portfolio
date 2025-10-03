@@ -11,6 +11,7 @@ from dotenv import load_dotenv
 
 # Import chatbot from separate module
 from chatbot import ChatbotWrapper, ChatMessage
+from rag import get_rag_system, initialize_knowledge_base
 
 load_dotenv()
 
@@ -61,6 +62,12 @@ class HealthResponse(BaseModel):
     version: str
 
 
+class RAGStatusResponse(BaseModel):
+    status: str
+    collection_info: dict
+    timestamp: datetime
+
+
 # Initialize chatbot
 chatbot = ChatbotWrapper()
 
@@ -106,6 +113,41 @@ async def chat_endpoint(request: ChatRequest):
         raise HTTPException(status_code=500, detail=str(e))
 
 
+@app.get("/rag/status", response_model=RAGStatusResponse)
+async def rag_status():
+    """Get RAG system status and collection information."""
+    try:
+        rag = get_rag_system()
+        collection_info = rag.get_collection_info()
+        
+        return RAGStatusResponse(
+            status="active",
+            collection_info=collection_info,
+            timestamp=datetime.now()
+        )
+    except Exception as e:
+        logger.error(f"RAG status check error: {str(e)}")
+        return RAGStatusResponse(
+            status="error",
+            collection_info={"error": str(e)},
+            timestamp=datetime.now()
+        )
+
+
+@app.post("/rag/initialize")
+async def initialize_rag():
+    """Initialize or reinitialize the RAG knowledge base."""
+    try:
+        success = initialize_knowledge_base("./resources/knowledge.md")
+        if success:
+            return {"status": "success", "message": "Knowledge base initialized successfully"}
+        else:
+            raise HTTPException(status_code=500, detail="Failed to initialize knowledge base")
+    except Exception as e:
+        logger.error(f"RAG initialization error: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 @app.get("/")
 async def root():
     """Root endpoint with basic info."""
@@ -115,6 +157,8 @@ async def root():
         "endpoints": {
             "health": "/health",
             "chat": "/chat",
+            "rag/status": "/rag/status",
+            "rag/initialize": "/rag/initialize",
             "docs": "/docs"
         }
     }
